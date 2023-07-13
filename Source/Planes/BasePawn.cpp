@@ -4,7 +4,8 @@
 #include "BasePawn.h"
 #include "GunProjectile.h"
 #include "Components/CapsuleComponent.h"
- 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -14,9 +15,9 @@ ABasePawn::ABasePawn()
 
 
 	capsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Casule Collider"));
-	capsuleComponent->SetupAttachment(capsuleComponent);
+
 	capsuleComponent->SetCapsuleSize(200, 200, true);
-	capsuleComponent->SetSimulatePhysics(true);
+	//capsuleComponent->SetSimulatePhysics(true);
 	RootComponent = capsuleComponent;
 
 
@@ -35,8 +36,8 @@ ABasePawn::ABasePawn()
 
 
 
-	//projectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Sprawn Point"));
-	//projectileSpawnPoint->SetupAttachment(skeletalMesh);
+	projectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Sprawn Point"));
+	projectileSpawnPoint->SetupAttachment(skeletalMesh);
 
 }
 
@@ -68,17 +69,24 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ABasePawn::shootGun()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ABasePawn::shootGun()") );
+	if (projectileSpawnPoint == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("ABasePawn projectileSpawnPoint == nullptr"));
+		return;
+	}
 
 	FVector location = projectileSpawnPoint->GetComponentLocation(); //location of the bullet
 	FRotator rotation = projectileSpawnPoint->GetComponentRotation();
 
-	GetWorld()->SpawnActor<AGunProjectile>(projectileClass, location, rotation);
+	auto projectile = GetWorld()->SpawnActor<AGunProjectile>(projectileClass, location, rotation);
+	projectile->SetOwner(this);
 }
 
 void ABasePawn::onComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ABasePawn on hit %s"), *OtherActor->GetActorLocation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("ABasePawn HIT"));
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Hit")));
+	//UE_LOG(LogTemp, Warning, TEXT("ABasePawn on hit %s"), *OtherActor->GetActorLocation().ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("ABasePawn HIT"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Hit")));
+	
+ 
 }
 

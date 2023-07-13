@@ -3,6 +3,8 @@
 
 #include "GunProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "GameFramework/DamageType.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGunProjectile::AGunProjectile()
@@ -35,6 +37,16 @@ void AGunProjectile::Tick(float DeltaTime)
 
 void AGunProjectile::onHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("AGunProjectile on hit"));
+	auto owner = GetOwner();
+	//if (owner == nullptr) return;
+
+	auto ownerInstigator = owner->GetInstigatorController();
+	auto damageTypeClass = UDamageType::StaticClass();
+
+	if (OtherActor && OtherActor != this && OtherActor != owner)
+	{
+		UGameplayStatics::ApplyDamage(OtherActor, damageAmount, ownerInstigator, this, damageTypeClass);
+		Destroy();
+	}
 }
 
