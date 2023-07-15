@@ -15,6 +15,8 @@ class PLANES_API AEnemyPlane : public ABasePawn
 	GENERATED_BODY()
 public:
 	AEnemyPlane();
+	virtual void Tick(float DeltaTime) override;
+
 
 protected:
 	virtual void BeginPlay();
@@ -28,7 +30,7 @@ UPROPERTY(EditAnywhere, Category = "Weapons")
 	float fireRange = 10000.f;
 
 UPROPERTY(EditAnywhere, Category = "Weapons")
-	float fireFrequency = 2.f;
+	float fireFrequency;
 
 
 private:

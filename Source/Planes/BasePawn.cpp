@@ -5,7 +5,7 @@
 #include "GunProjectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -19,7 +19,9 @@ ABasePawn::ABasePawn()
 	capsuleComponent->SetCapsuleSize(200, 200, true);
 	//capsuleComponent->SetSimulatePhysics(true);
 	RootComponent = capsuleComponent;
-
+	 
+	//pawnMovementComponent = CreateDefaultSubobject<UPawnMovementComponent>(TEXT("Pawn Movement Component"));
+ 
 
 	/*hitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	hitBox->SetSimulatePhysics(true);

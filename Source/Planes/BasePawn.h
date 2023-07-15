@@ -34,6 +34,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		USceneComponent* projectileSpawnPoint;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		class UPawnMovementComponent* pawnMovementComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
 		TSubclassOf<class AGunProjectile> projectileClass;

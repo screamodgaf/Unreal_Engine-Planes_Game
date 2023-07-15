@@ -30,7 +30,7 @@ void AHeroPlanePawn::Tick(float DeltaTime)
 	/*UE_LOG(LogTemp, Warning, TEXT("Rotation: %s"), *GetActorRotation().ToString());*/
  
 	velocity += acceleration * speed * UGameplayStatics::GetWorldDeltaSeconds(this);;
-	velocity = velocity.GetClampedToMaxSize(75.f);
+	velocity = velocity.GetClampedToMaxSize(175.f);
 	if (velocity.X < 0) velocity.X = 0; //so to plane doesnt go backward (below velocity =0) when S pressed
  
 	AddActorLocalOffset(velocity, true);
