@@ -38,7 +38,7 @@ void AMyAIController::BeginPlay()
 	if (playerPawn) 
 	{
 		SetFocus(playerPawn);
-		MoveToActor(playerPawn, 100.f);
+		MoveToActor(playerPawn, 500.f);
 	}
 	else
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Yellow, FString::Printf(TEXT("playerPawn = nullptr")));

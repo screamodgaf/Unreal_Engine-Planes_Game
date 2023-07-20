@@ -9,7 +9,7 @@
 
 
 AHeroPlanePawn::AHeroPlanePawn() :
-	speed(100.f)
+	speed(200.f)
 {
 	springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	springArm->SetupAttachment(RootComponent);

@@ -2,7 +2,8 @@
 
 
 #include "HealthComponent.h"
-
+#include "EnemyPlane.h"
+#include "HeroPlanePawn.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
@@ -37,7 +38,18 @@ void UHealthComponent::takeDamage(AActor* DamagedActor, float Damage, const UDam
 	if (Damage <= 0.f) return;
 
 	health -= Damage;
+	if (health <=0)
+	{
+	 
+		auto* damagedPlane = Cast<ABasePawn>(DamagedActor);
+		if (damagedPlane)
+		{
+			damagedPlane->performDestruction();
+		}
+  
+	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("Health %f"), health);
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Health %f"), health));
+	 
 }
 

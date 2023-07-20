@@ -5,7 +5,9 @@
 #include "GunProjectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/PawnMovementComponent.h"
+//#include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
+#include "Particles/ParticleSystem.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -21,7 +23,7 @@ ABasePawn::ABasePawn()
 	RootComponent = capsuleComponent;
 	 
 	//pawnMovementComponent = CreateDefaultSubobject<UPawnMovementComponent>(TEXT("Pawn Movement Component"));
- 
+	floatingPawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Floating Pawn Movement Component"));
 
 	/*hitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	hitBox->SetSimulatePhysics(true);
@@ -41,6 +43,7 @@ ABasePawn::ABasePawn()
 	projectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Sprawn Point"));
 	projectileSpawnPoint->SetupAttachment(skeletalMesh);
 
+	healthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +69,20 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ABasePawn::performDestruction()
+{
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT(" ABasePawn::performDestruction() ") ));
+	if (deathParticles)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Magenta, FString::Printf(TEXT(" ABasePawn::performDestruction() EXPLOSION")));
+		UGameplayStatics::SpawnEmitterAtLocation(this, deathParticles, GetActorLocation(), GetActorRotation());
+	}
+
+	Destroy();
 }
 
 void ABasePawn::shootGun()

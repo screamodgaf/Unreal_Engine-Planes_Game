@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "HealthComponent.h"
 #include "BasePawn.generated.h"
 
 UCLASS()
@@ -24,6 +25,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void performDestruction();
+	
 	void shootGun();
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -35,11 +38,23 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		USceneComponent* projectileSpawnPoint;
 	
+	//UPROPERTY(VisibleAnywhere, Category = "Components")
+	//	class UPawnMovementComponent* pawnMovementComponent;
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-		class UPawnMovementComponent* pawnMovementComponent;
+		class UFloatingPawnMovement* floatingPawnMovementComponent;
+	 
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		class UHealthComponent* healthComponent;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
 		TSubclassOf<class AGunProjectile> projectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
+		class UParticleSystem* deathParticles;
+ 
 
 public:
 
