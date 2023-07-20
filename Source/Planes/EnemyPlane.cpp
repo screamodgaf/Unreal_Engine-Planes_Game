@@ -18,7 +18,7 @@ void AEnemyPlane::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	
+	GetCharacterMovement()
 	//auto AIController = Cast<AMyAIController>(GetController());
 	//if (AIController)
 	//{

@@ -40,7 +40,6 @@ void UHealthComponent::takeDamage(AActor* DamagedActor, float Damage, const UDam
 	health -= Damage;
 	if (health <=0)
 	{
-	 
 		auto* damagedPlane = Cast<ABasePawn>(DamagedActor);
 		if (damagedPlane)
 		{

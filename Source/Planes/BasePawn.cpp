@@ -24,12 +24,12 @@ ABasePawn::ABasePawn()
 	 
 	//pawnMovementComponent = CreateDefaultSubobject<UPawnMovementComponent>(TEXT("Pawn Movement Component"));
 	floatingPawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Floating Pawn Movement Component"));
-
+ 
 	/*hitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	hitBox->SetSimulatePhysics(true);
 	hitBox->SetupAttachment(capsuleComponent);*/
 
-
+	 
 
 	skeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Base Mesh"));
 	skeletalMesh->SetSimulatePhysics(true);
