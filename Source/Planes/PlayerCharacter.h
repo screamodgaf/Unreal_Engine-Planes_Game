@@ -3,19 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasePawn.h"
-#include "HeroPlanePawn.generated.h"
+#include "BaseCharacter.h"
+#include "PlayerCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PLANES_API AHeroPlanePawn : public ABasePawn
+class PLANES_API APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
-
 public:
-	AHeroPlanePawn();
+	APlayerCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -23,8 +22,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
- 
-	 
+
+
 private:
 	void moveForward(float value);
 	void moveSideways(float value);
@@ -41,5 +40,8 @@ private:
 		float speed;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-		float turnRate;  
+		float turnRate = 45.f;
+
+	//UPROPERTY(EditAnywhere, Category = "Movement")
+	//	class UCharacterMovementComponent* movementComponent;
 };

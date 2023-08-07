@@ -4,6 +4,8 @@
 #include "HealthComponent.h"
 #include "EnemyPlane.h"
 #include "HeroPlanePawn.h"
+#include "EnemyCharacter.h"
+#include "PlayerCharacter.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
@@ -40,7 +42,7 @@ void UHealthComponent::takeDamage(AActor* DamagedActor, float Damage, const UDam
 	health -= Damage;
 	if (health <=0)
 	{
-		auto* damagedPlane = Cast<ABasePawn>(DamagedActor);
+		auto* damagedPlane = Cast<ABaseCharacter>(DamagedActor);
 		if (damagedPlane)
 		{
 			damagedPlane->performDestruction();

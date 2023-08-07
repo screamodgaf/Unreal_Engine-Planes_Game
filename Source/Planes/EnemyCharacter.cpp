@@ -1,26 +1,39 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "EnemyPlane.h"
+#include "EnemyCharacter.h"
 #include "TimerManager.h"
 #include "HeroPlanePawn.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyAIController.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
  
-
-AEnemyPlane::AEnemyPlane():
+AEnemyCharacter::AEnemyCharacter() :
 	fireFrequency(1.5f)
 {
 	PrimaryActorTick.bCanEverTick = true;
+	//GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	//GetCharacterMovement()->BrakingDecelerationFlying = 100.f;
+	//GetCharacterMovement()
+	GetCharacterMovement()->bCheatFlying = false;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bUseControllerDesiredRotation = false;
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
  
 }
 
-void AEnemyPlane::Tick(float DeltaTime)
+void AEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+	auto vec = GetCharacterMovement()->Velocity;
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, 
+	//	FString::Printf(TEXT("PensdingVector: %s"), *vec.ToString()));
+	 
+	 
+	 
+
  
+
 	//auto AIController = Cast<AMyAIController>(GetController());
 	//if (AIController)
 	//{
@@ -48,17 +61,24 @@ void AEnemyPlane::Tick(float DeltaTime)
 	//	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("I AM CONTROLLED BY AI ")));
 	//	//whatever other logic you need
 
-	 
+
 	//}
 }
 
-void AEnemyPlane::BeginPlay()
+void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Blue, FString::Printf(TEXT(" AEnemyCharacter::SetupPlayerInputComponent")));
+}
+
+void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	heroPlane = Cast<AHeroPlanePawn>(UGameplayStatics::GetPlayerPawn(this, 0));
- 
-	GetWorldTimerManager().SetTimer(fireTimerHandle, this, &AEnemyPlane::checkIfInRangeAndFire, fireFrequency, true);
+
+	GetWorldTimerManager().SetTimer(fireTimerHandle, this, &AEnemyCharacter::checkIfInRangeAndFire, fireFrequency, true);
 	//if(IsPlayerControlled())
 	//	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("IsPlayerControlled ") ));
 	//else
@@ -66,13 +86,13 @@ void AEnemyPlane::BeginPlay()
  //
 }
 
-void AEnemyPlane::checkIfInRangeAndFire()
+void AEnemyCharacter::checkIfInRangeAndFire()
 {
 	if (heroPlane)
 	{
-		 
+
 		float distanceFromHero = FVector::Dist(GetActorLocation(), heroPlane->GetActorLocation());
-		
+
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("distanceFromHero %f"), distanceFromHero));
 
 		if (distanceFromHero <= fireRange)
@@ -81,5 +101,5 @@ void AEnemyPlane::checkIfInRangeAndFire()
 		}
 
 	}
-	 
+
 }

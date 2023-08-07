@@ -17,7 +17,7 @@ class PLANES_API AMyAIController : public AAIController
 public:
 	AMyAIController();
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 protected:
 	virtual void BeginPlay();
 
